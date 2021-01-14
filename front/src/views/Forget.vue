@@ -88,7 +88,7 @@
                   </div>
                 </div>
                 <div class="layui-form-item">
-                  <button class="layui-btn">提交</button>
+                  <button class="layui-btn" @click="submit">提交</button>
                 </div>
               </form>
             </div>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { getCode } from '@/api/login'
+import { getCode, forgetPassword } from '@/api/login'
 export default {
   name: 'forget',
   data () {
@@ -114,6 +114,16 @@ export default {
     getCaptcha () {
       getCode().then((res) => {
         this.svg = res.value
+      })
+    },
+    submit () {
+      forgetPassword({
+        email: this.email,
+        code: this.code
+      }).then((res) => {
+        if (res.code === 200) {
+          alert('邮件发送成功！')
+        }
       })
     }
   },
